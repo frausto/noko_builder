@@ -3,7 +3,7 @@ require 'spec_helper'
 describe NokoBuilder do
   it "should builder xml using the default values" do
     builder = NokoBuilder.new do |xml|
-      xml.Sup :default => "yo dawg"
+      xml.Sup "yo dawg"
     end
     
     builder.doc.xpath("//Sup").text.should == "yo dawg"
@@ -11,7 +11,7 @@ describe NokoBuilder do
   
   it "should overwrite defaults if specified" do
     builder = NokoBuilder.new(:Sup => "cool story") do |xml|
-      xml.Sup :default => "yo dawg"
+      xml.Sup "yo dawg"
     end
     
     builder.doc.xpath("//Sup").text.should == "cool story"
@@ -28,8 +28,8 @@ describe NokoBuilder do
   it "should work with nested xml" do
     builder = NokoBuilder.new(:Two => "what up") do |xml|
       xml.Outside do
-        xml.One :default => "first"
-        xml.Two :default => "second"
+        xml.One "first"
+        xml.Two "second"
       end
     end
     
@@ -57,16 +57,6 @@ describe NokoBuilder do
     builder.doc.xpath("//One").attr('attr').text.should == "cool"
   end
   
-  it "should use extra hash values as attributes with default" do
-    builder = NokoBuilder.new do |xml|
-      xml.Outside do
-        xml.One({:default => "no def"}, {:attr => "cool"})
-      end
-    end
-    
-    builder.doc.xpath("//One").attr('attr').text.should == "cool"
-  end
-  
   it "should not include tag if not set and no defaults" do
     builder = NokoBuilder.new do |xml|
       xml.One
@@ -78,7 +68,7 @@ describe NokoBuilder do
   it "should work with namespacing" do
     builder = NokoBuilder.new do |xml|
       xml.One('xmlns' => 'http://stuff') do
-        xml.Inside :default => "namey"
+        xml.Inside "namey"
       end
     end
     
@@ -88,7 +78,7 @@ describe NokoBuilder do
   it "should be able to pass options to nokogiri builder" do
     builder = NokoBuilder.new({},{:encoding => 'UTF-8'}) do |xml|
       xml.One('xmlns' => 'http://stuff') do
-        xml.Inside :default => "namey"
+        xml.Inside "namey"
       end
     end
 
