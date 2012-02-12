@@ -1,6 +1,6 @@
 = NokoBuilder
 
-NokoBuilder is a gem that makes building out xml using nokogiri even easier! 
+NokoBuilder is a gem that makes building out xml using nokogiri even easier! It gives you the ability to add defaults to each xml element, while still maintaining all the stuff you get from the normal nokogiri xml builder.
 
 == Examples
 
@@ -11,6 +11,7 @@ You can set default values for xml nodes that can be overwritten by passing the 
   builder = NokoBuilder.new(options) do |xml|
     xml.One :default => "default value"
     xml.Two "not overwriteable"
+    xml.Three
   end
 
 If <tt>options = {}</tt> then <tt>builder.to_xml</tt> would produce:
@@ -28,13 +29,22 @@ If <tt>options = {:One => "BOOM"}</tt> then <tt>builder.to_xml</tt> would produc
     <One>BOOM</One>
     <Two>not overwriteable</Two>
   </Doc>
+  
+If <tt>options = {:Three => "BOOM"}</tt> then <tt>builder.to_xml</tt> would produce:
+
+    <?xml version="1.0"?>
+    <Doc>
+      <One>default value</One>
+      <Two>not overwriteable</Two>
+      <Three>BOOM</Three>
+    </Doc>
 
 ===NOKOGIRI OPTIONS
 
 You can pass in options to the nokogiri builder as the second argument if you want.
   
   builder = NokoBuilder.new({},{:encoding => 'UTF-8'}) do |xml|
-    xml.One('xmlns' => 'http://stuff') do
+    xml.One do
       xml.Inside :default => "namey"
     end
   end
@@ -42,8 +52,27 @@ You can pass in options to the nokogiri builder as the second argument if you wa
 Doing <tt>builder.to_xml</tt> Would produce:
 
   <?xml version="1.0" encoding="UTF-8"?>
-  <One xmlns="http://stuff">
+  <One>
     <Inside>namey</Inside>
+  </One>
+  
+===ATTRIBUTES
+
+You can pass in attributes to the nokobuilder the same way you would with nokogiri builder.
+
+    builder = NokoBuilder.new do |xml|
+      xml.One('xmlns' => 'http://stuff') do
+        xml.Inside({:default => "namey"}, {:attribute => "me"})
+        xml.Another(:one => "one", :two => "two")
+      end
+    end
+
+Doing <tt>builder.to_xml</tt> Would produce:
+
+  <?xml version="1.0"?>
+  <One xmlns="http://stuff">
+    <Inside attribute="me">namey</Inside>
+    <Another one="one" two="two"/>
   </One>
 
 == Contributing to noko_builder

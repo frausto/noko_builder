@@ -40,11 +40,31 @@ describe NokoBuilder do
   it "should work normally like nokogiri builder if given a value no defaults" do
     builder = NokoBuilder.new do |xml|
       xml.Outside do
-        xml.One "no def"
+        xml.One "no def", :attr => "cool"
       end
     end
     
     builder.doc.xpath("//One").text.should == "no def"
+  end
+  
+  it "should work normally like nokogiri builder with attributes" do
+    builder = NokoBuilder.new do |xml|
+      xml.Outside do
+        xml.One("no def", :attr => "cool")
+      end
+    end
+    
+    builder.doc.xpath("//One").attr('attr').text.should == "cool"
+  end
+  
+  it "should use extra hash values as attributes with default" do
+    builder = NokoBuilder.new do |xml|
+      xml.Outside do
+        xml.One({:default => "no def"}, {:attr => "cool"})
+      end
+    end
+    
+    builder.doc.xpath("//One").attr('attr').text.should == "cool"
   end
   
   it "should not include tag if not set and no defaults" do
