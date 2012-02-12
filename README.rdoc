@@ -9,24 +9,26 @@ NokoBuilder is a gem that makes building out xml using nokogiri even easier! It 
 The values for xml tags can be overwritten by passing the value as an option when creating the xml document.
 
   builder = NokoBuilder.new(options) do |xml|
-    xml.One "default value"
-    xml.Two
+    xml.Docu do
+      xml.One "default value"
+      xml.Two
+    end
   end
 
 If <tt>options = {}</tt> then <tt>builder.to_xml</tt> would produce:
   
   <?xml version="1.0"?>
-  <Doc>
+  <Docu>
     <One>default value</One>
-  </Doc>
+  </Docu>
 
 If <tt>options = {:One => "BOOM", :Two => "BAMO"}</tt> then <tt>builder.to_xml</tt> would produce:
 
   <?xml version="1.0"?>
-  <Doc>
+  <Docu>
     <One>BOOM</One>
     <Two>BAMO</Two>
-  </Doc>
+  </Docu>
   
 ===ATTRIBUTES
 
