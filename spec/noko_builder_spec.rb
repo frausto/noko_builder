@@ -99,5 +99,63 @@ describe NokoBuilder do
       builder.doc.xpath("//One").text.should == "over"
       builder.doc.xpath("//One").attr('attr').text.should == "cool"
     end
+    
+    it "should overwrite attributes" do
+      builder = NokoBuilder.new(:One_nattr => {:another => 'awesome'}) do |xml|
+        xml.Outside do
+          xml.One :attr => "cool", :another => "beans"
+        end
+      end
+
+      builder.doc.xpath("//One").attr('attr').text.should == "cool"
+      builder.doc.xpath("//One").attr('another').text.should == "awesome"
+    end
+    
+    it "should add attributes" do
+      builder = NokoBuilder.new(:One_nattr => {:another => 'awesome', :newone => 'new'}) do |xml|
+        xml.Outside do
+          xml.One :another => "beans"
+        end
+      end
+
+      builder.doc.xpath("//One").attr('newone').text.should == "new"
+      builder.doc.xpath("//One").attr('another').text.should == "awesome"
+    end
+    
+    it "should overwrite attributes and value" do
+      builder = NokoBuilder.new(:One => "test", :One_nattr => {:another => 'awesome'}) do |xml|
+        xml.Outside do
+          xml.One :attr => "cool", :another => "beans"
+        end
+      end
+
+      builder.doc.xpath("//One").attr('attr').text.should == "cool"
+      builder.doc.xpath("//One").attr('another').text.should == "awesome"
+      builder.doc.xpath("//One").text.should == "test"
+    end
+    
+    it "should overwrite attributes and value when having a default value" do
+      builder = NokoBuilder.new(:One => "test", :One_nattr => {:another => 'awesome'}) do |xml|
+        xml.Outside do
+          xml.One "testinit", :attr => "cool", :another => "beans"
+        end
+      end
+
+      builder.doc.xpath("//One").attr('attr').text.should == "cool"
+      builder.doc.xpath("//One").attr('another').text.should == "awesome"
+      builder.doc.xpath("//One").text.should == "test"
+    end
+
+    it "should overwrite attributes when having a default value" do
+      builder = NokoBuilder.new(:One_nattr => {:another => 'awesome'}) do |xml|
+        xml.Outside do
+          xml.One "def", :attr => "cool", :another => "beans"
+        end
+      end
+
+      builder.doc.xpath("//One").attr('attr').text.should == "cool"
+      builder.doc.xpath("//One").attr('another').text.should == "awesome"
+      builder.doc.xpath("//One").text.should == "def"
+    end
   end
 end

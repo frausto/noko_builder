@@ -1,12 +1,12 @@
 = NokoBuilder
 
-NokoBuilder is a gem that makes building out xml using nokogiri even easier! It gives you the ability to add defaults to each xml element, while still maintaining all the stuff you get from the normal nokogiri xml builder.
+NokoBuilder is a gem that makes building out xml using nokogiri even easier! It gives you the ability to add overwritable default values and attributes to each xml tag, while still maintaining all the stuff you get from the normal nokogiri xml builder.
 
 == Examples
 
-===DEFAULTS
+===VALUES
 
-You can set default values for xml nodes that can be overwritten by passing the value as an option when creating the xml document.
+The values for xml tags can be overwritten by passing the value as an option when creating the xml document.
 
   builder = NokoBuilder.new(options) do |xml|
     xml.One "default value"
@@ -27,11 +27,38 @@ If <tt>options = {:One => "BOOM", :Two => "BAMO"}</tt> then <tt>builder.to_xml</
     <One>BOOM</One>
     <Two>BAMO</Two>
   </Doc>
+  
+===ATTRIBUTES
+
+You can pass in attributes to the nokobuilder the same way you would with nokogiri builder.
+
+    builder = NokoBuilder.new(options) do |xml|
+      xml.One('xmlns' => 'http://stuff') do
+        xml.Inside "namey", :attribute => "me"
+        xml.Another(:one => "one", :two => "two")
+      end
+    end
+
+If <tt>options = {}</tt> then <tt>builder.to_xml</tt> Would produce:
+
+  <?xml version="1.0"?>
+  <One xmlns="http://stuff">
+    <Inside attribute="me">namey</Inside>
+    <Another one="one" two="two"/>
+  </One>
+  
+If <tt>options = {:Inside_nattr => {:blamo => "one"}, :Another_nattr => {:one => 'new', :three => "thr"}}</tt> then <tt>builder.to_xml</tt> Would produce:
+
+    <?xml version="1.0"?>
+    <One xmlns="http://stuff">
+      <Inside attribute="me" blamo="one">namey</Inside>
+      <Another one="new" two="two" three="thr"/>
+    </One>
 
 ===NOKOGIRI OPTIONS
 
 You can pass in options to the nokogiri builder as the second argument if you want.
-  
+
   builder = NokoBuilder.new({},{:encoding => 'UTF-8'}) do |xml|
     xml.One do
       xml.Inside "namey"
@@ -45,25 +72,6 @@ Doing <tt>builder.to_xml</tt> Would produce:
     <Inside>namey</Inside>
   </One>
   
-===ATTRIBUTES
-
-You can pass in attributes to the nokobuilder the same way you would with nokogiri builder.
-
-    builder = NokoBuilder.new do |xml|
-      xml.One('xmlns' => 'http://stuff') do
-        xml.Inside "namey", :attribute => "me"
-        xml.Another(:one => "one", :two => "two")
-      end
-    end
-
-Doing <tt>builder.to_xml</tt> Would produce:
-
-  <?xml version="1.0"?>
-  <One xmlns="http://stuff">
-    <Inside attribute="me">namey</Inside>
-    <Another one="one" two="two"/>
-  </One>
-
 == Contributing to noko_builder
  
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
