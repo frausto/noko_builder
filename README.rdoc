@@ -1,6 +1,6 @@
 = NokoBuilder
 
-NokoBuilder is a gem that makes building out xml using nokogiri even easier! It gives you the ability to add overwritable default values and attributes to each xml tag, while still maintaining all the stuff you get from the normal nokogiri xml builder.
+NokoBuilder is a gem that makes building out xml using nokogiri even easier! It makes each tag value and attributes act as a default value that is easily overwritable and extendable, while still maintaining all the stuff you get from the normal nokogiri xml builder.
 
 == Examples
 
