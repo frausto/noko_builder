@@ -1,6 +1,6 @@
 = noko_builder
 
-Description goes here.
+NokoBuilder is a gem to make building out xml with nokogiri easier!
 
 == Contributing to noko_builder
  
