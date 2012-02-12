@@ -64,4 +64,14 @@ describe NokoBuilder do
     
     builder.doc.xpath("//ns:Inside", "ns" => "http://stuff").text.should == "namey"
   end
+  
+  it "should be able to pass options to nokogiri builder" do
+    builder = NokoBuilder.new({},{:encoding => 'UTF-8'}) do |xml|
+      xml.One('xmlns' => 'http://stuff') do
+        xml.Inside :default => "namey"
+      end
+    end
+    puts builder.to_xml
+    builder.to_xml.should =~ /\<\?xml version="1.0" encoding="UTF-8"\?\>/
+  end
 end

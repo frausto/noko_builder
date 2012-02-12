@@ -5,9 +5,9 @@ class NokoBuilder
   attr_reader :noko
   delegate *(Nokogiri::XML::Builder.new.methods - Object.new.methods), :to => :noko
   
-  def initialize(overwrite={})
+  def initialize(overwrite={}, noko_options={})
     @overwrite = overwrite
-    @noko = Nokogiri::XML::Builder.new do |xml|
+    @noko = Nokogiri::XML::Builder.new(noko_options) do |xml|
       @xml = xml
       yield self
     end

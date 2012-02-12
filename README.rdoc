@@ -4,14 +4,16 @@ NokoBuilder is a gem that makes building out xml using nokogiri even easier!
 
 == Examples
 
-===Example Using defaults
+===DEFAULTS
 
-  builder = NokoBuilder.new do |xml|
+You can set default values for xml nodes that can be overwritten by passing the value as an option when creating the xml document.
+
+  builder = NokoBuilder.new(options) do |xml|
     xml.One :default => "default value"
     xml.Two "not overwriteable"
   end
 
-Doing <tt>builder.new.to_xml</tt> Would produce:
+If <tt>options = {}</tt> then <tt>builder.to_xml</tt> would produce:
   
   <?xml version="1.0"?>
   <Doc>
@@ -19,13 +21,30 @@ Doing <tt>builder.new.to_xml</tt> Would produce:
     <Two>not overwriteable</Two>
   </Doc>
 
-Doing <tt>builder.new({:One => "BOOM"}).to_xml</tt> Would produce:
+If <tt>options = {:One => "BOOM"}</tt> then <tt>builder.to_xml</tt> would produce:
 
   <?xml version="1.0"?>
   <Doc>
     <One>BOOM</One>
     <Two>not overwriteable</Two>
   </Doc>
+
+===NOKOGIRI OPTIONS
+
+You can pass in options to the nokogiri builder as the second argument if you want.
+  
+  builder = NokoBuilder.new({},{:encoding => 'UTF-8'}) do |xml|
+    xml.One('xmlns' => 'http://stuff') do
+      xml.Inside :default => "namey"
+    end
+  end
+
+Doing <tt>builder.to_xml</tt> Would produce:
+
+  <?xml version="1.0" encoding="UTF-8"?>
+  <One xmlns="http://stuff">
+    <Inside>namey</Inside>
+  </One>
 
 == Contributing to noko_builder
  
