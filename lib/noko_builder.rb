@@ -14,10 +14,17 @@ class NokoBuilder
   end
   
   def method_missing(id, *args, &block)
-    first_arg = args.shift
+    args = update_args(id, args.shift) + args
+    args = args.compact.reject(&:blank?)
     
-    default = @overwrite[id.to_sym] || first_arg
-    default = args.unshift(default).compact.reject(&:blank?)
-    @xml.send(id, *default, &block) if default.present? || block.present?
+    @xml.send(id, *args, &block) if args.present? || block.present?
+  end
+  
+  private
+  
+  def update_args(id, first_arg)
+    default = @overwrite[id.to_sym]
+    return [first_arg] unless default.present?
+    first_arg.kind_of?(Hash) ? [default, first_arg] : [default]
   end
 end
