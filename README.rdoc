@@ -1,6 +1,31 @@
-= noko_builder
+= NokoBuilder
 
-NokoBuilder is a gem to make building out xml with nokogiri easier!
+NokoBuilder is a gem that makes building out xml using nokogiri even easier! 
+
+== Examples
+
+===Example Using defaults
+
+  builder = NokoBuilder.new do |xml|
+    xml.One :default => "default value"
+    xml.Two "not overwriteable"
+  end
+
+Doing <tt>builder.new.to_xml</tt> Would produce:
+  
+  <?xml version="1.0"?>
+  <Doc>
+    <One>default value</One>
+    <Two>not overwriteable</Two>
+  </Doc>
+
+Doing <tt>builder.new({:One => "BOOM"}).to_xml</tt> Would produce:
+
+<?xml version="1.0"?>
+<Doc>
+  <One>BOOM</One>
+  <Two>not overwriteable</Two>
+</Doc>
 
 == Contributing to noko_builder
  
