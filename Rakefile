@@ -18,7 +18,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/frausto/noko_builder"
   gem.license = "MIT"
   gem.summary = %Q{a gem to make building out xmls with nokogiri easier}
-  gem.description = %Q{a gem that lets you add default values to the xmls you build, as well as making it easier to set the values of nodes}
+  gem.description = %Q{a gem that lets you add overwriteable values and attributes to the xmls you build}
   gem.email = "nrfrausto@gmail.com"
   gem.authors = ["frausto"]
   # dependencies defined in Gemfile
