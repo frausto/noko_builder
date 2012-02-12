@@ -22,22 +22,14 @@ If <tt>options = {}</tt> then <tt>builder.to_xml</tt> would produce:
     <Two>not overwriteable</Two>
   </Doc>
 
-If <tt>options = {:One => "BOOM"}</tt> then <tt>builder.to_xml</tt> would produce:
+If <tt>options = {:One => "BOOM", :Three => "BAMO"}</tt> then <tt>builder.to_xml</tt> would produce:
 
   <?xml version="1.0"?>
   <Doc>
     <One>BOOM</One>
     <Two>not overwriteable</Two>
+    <Three>BAMO</Three>
   </Doc>
-  
-If <tt>options = {:Three => "BOOM"}</tt> then <tt>builder.to_xml</tt> would produce:
-
-    <?xml version="1.0"?>
-    <Doc>
-      <One>default value</One>
-      <Two>not overwriteable</Two>
-      <Three>BOOM</Three>
-    </Doc>
 
 ===NOKOGIRI OPTIONS
 
