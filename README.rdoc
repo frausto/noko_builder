@@ -21,11 +21,11 @@ Doing <tt>builder.new.to_xml</tt> Would produce:
 
 Doing <tt>builder.new({:One => "BOOM"}).to_xml</tt> Would produce:
 
-<?xml version="1.0"?>
-<Doc>
-  <One>BOOM</One>
-  <Two>not overwriteable</Two>
-</Doc>
+  <?xml version="1.0"?>
+  <Doc>
+    <One>BOOM</One>
+    <Two>not overwriteable</Two>
+  </Doc>
 
 == Contributing to noko_builder
  
