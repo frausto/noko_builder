@@ -3,7 +3,7 @@ require 'active_support/all'
 
 class NokoBuilder
   attr_reader :noko
-  delegate *(Nokogiri::XML::Builder.new.methods - Object.new.methods), :to => :noko
+  delegate *((Nokogiri::XML::Builder.new.methods - Object.new.methods).push(:to => :noko))
   
   def initialize(overwrite={}, noko_options={})
     @overwrite = overwrite
