@@ -14,10 +14,9 @@ class NokoBuilder
   end
   
   def method_missing(id, *args, &block)
-    first_arg = args.shift || {}
-    options = first_arg.kind_of?(Hash) ? first_arg : {}
+    first_arg = args.shift
     
-    default = @overwrite[id.to_sym] || options[:default] || first_arg
+    default = @overwrite[id.to_sym] || first_arg
     default = args.unshift(default).compact.reject(&:blank?)
     @xml.send(id, *default, &block) if default.present? || block.present?
   end
